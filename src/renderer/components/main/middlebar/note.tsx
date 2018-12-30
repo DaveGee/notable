@@ -6,6 +6,15 @@ import {connect} from 'overstated';
 import Markdown from '@renderer/utils/markdown';
 import Main from '@renderer/containers/main';
 import NoteBadge from './note_badge';
+import { format, isToday, isThisMonth, isThisYear } from 'date-fns';
+
+
+const formatTime = (noteTime) => {
+  if (isToday(noteTime)) return format(noteTime, "[Today,] HH:mm")
+  if (isThisMonth(noteTime)) return format(noteTime, "ddd DD, HH:mm")
+  if (isThisYear(noteTime)) return format(noteTime, "DD MMM, HH:mm")
+  return format(noteTime, "MMM YYYY")
+}
 
 /* NOTE */
 
@@ -16,6 +25,7 @@ const Note = ({ note, style, title, hasAttachments, isActive, isSelected, isDele
 
   return (
     <div style={style} className={`note-button ${!isMultiEditorEditing && isActive ? 'label' : 'button'} ${( isMultiEditorEditing ? isSelected : isActive ) ? 'active' : ''} small fluid compact circular`} data-checksum={note.checksum} data-filepath={note.filePath} data-deleted={isDeleted} data-favorited={isFavorited} onClick={onClick} tabIndex={0}> {/* tabIndex is need in order to have the notes focusable, we use that for navigating with arrow */}
+      <span className="date">{formatTime(note.metadata.dateModified)}</span>
       <span className="title" dangerouslySetInnerHTML={{ __html: html }}></span>
       {!hasAttachments ? null : (
         <NoteBadge icon="paperclip" />

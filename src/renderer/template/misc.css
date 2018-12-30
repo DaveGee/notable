@@ -162,6 +162,13 @@
   background-color: #eeeeee;
 }
 
+#middlebar .note-button .date {
+  color: #999;
+  flex: 0 0 90px;
+  font-size: 0.9em;
+  text-align: left;
+}
+
 #middlebar .note-button .title {
   flex-grow: 1;
   padding: 0 5px;
